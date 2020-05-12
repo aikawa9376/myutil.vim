@@ -118,7 +118,7 @@ endfunction
 
 " insert leave ime off ---------------------
 let s:input_toggle = 1
-function! Fcitx2en()
+function! util#fcitx2en()
   let s:input_status = system('fcitx-remote')
   if s:input_status == 2
     let s:input_toggle = 1
@@ -284,7 +284,7 @@ function! util#google_open() abort
   execute 'silent !google-chrome-stable ' .
    \ '"' . url . '" 2> /dev/null &'
 endfunction
-function! util#get_visual_selection()
+function! s:get_visual_selection()
     let [line_start, column_start] = getpos("'<")[1:2]
     let [line_end, column_end] = getpos("'>")[1:2]
     let lines = getline(line_start, line_end)
