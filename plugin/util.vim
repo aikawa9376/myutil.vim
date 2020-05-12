@@ -35,7 +35,6 @@ augroup util
   autocmd TextYankPost,TextChanged,InsertEnter * call util#yank_toggle_flag()
 augroup END
 
-command! utilToggle call util#toggle()
 command!
   \ -nargs=+ -bang
   \ -complete=command
