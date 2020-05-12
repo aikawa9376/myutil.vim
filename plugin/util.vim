@@ -41,7 +41,7 @@ command!
   \ Capture
   \ call util#cmd_capture([<f-args>], <bang>0)
 
-set foldtext=util#custom_fold_text()
+command! -nargs=* TERM split | resize20 | term <args>
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
