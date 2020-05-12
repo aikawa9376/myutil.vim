@@ -27,11 +27,22 @@ call s:set('g:util_enable', 1 )
 
 augroup util
   autocmd!
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType qf call util#qf_enhanced()
+  autocmd BufWritePre * call util#auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  autocmd BufNewFile,BufReadPost * call util#vimrc_local(expand('<afile>:p:h'))
+  autocmd InsertLeave * call util#fcitx2en()
+  autocmd TextYankPost,TextChanged,InsertEnter * call util#yank_toggle_flag()
 augroup END
 
 command! utilToggle call util#toggle()
+command!
+  \ -nargs=+ -bang
+  \ -complete=command
+  \ Capture
+  \ call util#cmd_capture([<f-args>], <bang>0)
 
-set foldtext=util#customfoldtext()
+set foldtext=util#custom_fold_text()
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
