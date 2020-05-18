@@ -1,11 +1,11 @@
 "=============================================================================
-" FILE: util.vim
+" FILE: myutil.vim
 " AUTHOR: aikawa
 " License: MIT license
 "=============================================================================
 
 " fold ---------------------
-function! util#custom_fold_text() abort
+function! myutil#custom_fold_text() abort
   "get first non-blank line
   let fs = v:foldstart
   while getline(fs) =~# '^\s*$' | let fs = nextnonblank(fs + 1)
@@ -31,7 +31,7 @@ function! util#custom_fold_text() abort
 endfunction
 
 " QuickFix ---------------------
-function! util#qf_enhanced()
+function! myutil#qf_enhanced()
   nnoremap <buffer> p  <CR>zz<C-w>p
   nnoremap <silent> <buffer> dd :call <SID>del_entry()<CR>
   nnoremap <silent> <buffer> x :call <SID>del_entry()<CR>
@@ -58,7 +58,7 @@ function! s:del_entry() range
 endfunction
 
 " auto mkdir ---------------------
-function! util#auto_mkdir(dir, force)
+function! myutil#auto_mkdir(dir, force)
   if !isdirectory(a:dir) && (a:force ||
         \    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
@@ -66,7 +66,7 @@ function! util#auto_mkdir(dir, force)
 endfunction
 
 " local setting ---------------------
-function! util#vimrc_local(loc)
+function! myutil#vimrc_local(loc)
   let files = findfile('.vimrc.local', escape(a:loc, ' ') . ';', -1)
   for i in reverse(filter(files, 'filereadable(v:val)'))
     source `=i`
@@ -81,13 +81,13 @@ function! s:capture(cmd)
   return result
 endfunction
 
-function! util#cmd_capture(args, banged)
+function! myutil#cmd_capture(args, banged)
   new
   silent put =s:capture(join(a:args))
   1,2delete _
 endfunction
 
-function! util#set_default(var, val, ...) abort
+function! myutil#set_default(var, val, ...) abort
   if !exists(a:var) || type({a:var}) != type(a:val)
     let alternate_var = get(a:000, 0, '')
 
@@ -97,7 +97,7 @@ function! util#set_default(var, val, ...) abort
 endfunction
 
 " toggle function ---------------------
-function! util#toggle_syntax() abort
+function! myutil#toggle_syntax() abort
   if exists('g:syntax_on')
     syntax off
     redraw
@@ -108,7 +108,7 @@ function! util#toggle_syntax() abort
     echo 'syntax on'
   endif
 endfunction
-function! util#toggle_relativenumber() abort
+function! myutil#toggle_relativenumber() abort
   if &relativenumber == 1
      setlocal norelativenumber
   else
@@ -118,7 +118,7 @@ endfunction
 
 " insert leave ime off ---------------------
 let s:input_toggle = 1
-function! util#fcitx2en()
+function! myutil#fcitx2en()
   let s:input_status = system('fcitx-remote')
   if s:input_status == 2
     let s:input_toggle = 1
@@ -128,7 +128,7 @@ endfunction
 
 " search highlight toggle ---------------------
 nmap <Plug>(my-hltoggle) mz<Esc>:%s/\(<C-r>=expand("<cword>")<Cr>\)//gn<CR>`z
-function! util#hl_text_toggle()
+function! myutil#hl_text_toggle()
   if v:hlsearch != 0
     call feedkeys(":noh\<CR>")
   else
@@ -137,7 +137,7 @@ function! util#hl_text_toggle()
 endfunction
 
 " delete line enhance ---------------------
-function! util#remove_line_brank(count)
+function! myutil#remove_line_brank(count)
   for i in range(1, v:count1)
     if getline('.') ==# ''
       .delete _
@@ -148,7 +148,7 @@ function! util#remove_line_brank(count)
   call repeat#set('dd', v:count1)
 endfunction
 
-function! util#remove_line_brank_all(count)
+function! myutil#remove_line_brank_all(count)
   for i in range(1, v:count1)
     if getline('.') ==# ''
       .delete _
@@ -166,7 +166,7 @@ endfunction
 function! s:yank_after_indent()
   normal! gV=gV^
 endfunction
-function! util#yank_line(flag)
+function! myutil#yank_line(flag)
   if a:flag ==# 'j'
     let line = line('.')
     let repeat = ']p'
@@ -181,7 +181,7 @@ function! util#yank_line(flag)
 endfunction
 
 " yank toggle ---------------------
-function! util#yank_text_toggle()
+function! myutil#yank_text_toggle()
   if b:yank_toggle_flag != 0
     execute 'normal `['
     let b:yank_toggle_flag = 0
@@ -190,12 +190,12 @@ function! util#yank_text_toggle()
     let b:yank_toggle_flag = 1
   endif
 endfunction
-function! util#yank_toggle_flag() abort
+function! myutil#yank_toggle_flag() abort
   let b:yank_toggle_flag = 1
 endfunction
 
 " auto indent start insert
-function! util#indent_with_i()
+function! myutil#indent_with_i()
     if len(getline('.')) == 0
         return 'cc'
     else
@@ -204,7 +204,7 @@ function! util#indent_with_i()
 endfunction
 
 " gJで空白を削除する
-function! util#join_space_less()
+function! myutil#join_space_less()
     execute 'normal gj'
     " Character under cursor is whitespace?
     if matchstr(getline('.'), '\%' . col('.') . 'c.') =~? '\s'
@@ -215,7 +215,7 @@ function! util#join_space_less()
 endfunction
 
 " vimrcをスペースドットで更新
-function util#reload_vimrc() abort
+function myutil#reload_vimrc() abort
   execute printf('source %s', $MYVIMRC)
   if has('gui_running')
     execute printf('source %s', $MYGVIMRC)
@@ -225,25 +225,25 @@ function util#reload_vimrc() abort
 endfunction
 
 " macro visual selection ---------------------
-function! util#execute_macro_visual_range()
+function! myutil#execute_macro_visual_range()
   echo '@'.getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
 " ex command line enhance ---------------------
-function! util#ctrl_u() abort "{{{ rsi ctrl-u, ctrl-w
+function! myutil#ctrl_u() abort "{{{ rsi ctrl-u, ctrl-w
   if getcmdpos() > 1
     let @- = getcmdline()[:getcmdpos()-2]
   endif
   return "\<C-U>"
 endfunction
 
-function! util#ctrl_w_before() abort
+function! myutil#ctrl_w_before() abort
   let s:cmdline = getcmdpos() > 1 ? getcmdline() : ''
   return "\<C-W>"
 endfunction
 
-function! util#ctrl_w_after() abort
+function! myutil#ctrl_w_after() abort
   if strlen(s:cmdline) > 0
     let @- = s:cmdline[(getcmdpos()-1) : (getcmdpos()-2)+(strlen(s:cmdline)-strlen(getcmdline()))]
   endif
@@ -251,7 +251,7 @@ function! util#ctrl_w_after() abort
 endfunction
 
 " help override ---------------------
-function! util#help_override() abort
+function! myutil#help_override() abort
   let vtext = s:get_visual_selection()
   let word = expand('<cword>')
   if vtext !=# ''
@@ -265,7 +265,7 @@ function! util#help_override() abort
 endfunction
 
 " search google ---------------------
-function! util#google_search() abort
+function! myutil#google_search() abort
   let vtext = s:get_visual_selection()
   let word = expand('<cword>')
   if vtext !=# ''
@@ -274,7 +274,7 @@ function! util#google_search() abort
   execute 'silent !google-chrome-stable ' .
    \ '"http://www.google.co.jp/search?num=100&q=' . word . '" 2> /dev/null &'
 endfunction
-function! util#google_open() abort
+function! myutil#google_open() abort
   let vtext = s:get_visual_selection()
   if vtext =~ "^http"
     let url = vtext

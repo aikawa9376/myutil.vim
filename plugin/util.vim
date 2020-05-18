@@ -1,13 +1,13 @@
 "=============================================================================
-" FILE: util.vim
+" FILE: myutil.vim
 " AUTHOR:  aikawa
 " License: MIT license
 "=============================================================================
 
-if exists('g:loaded_util')
+if exists('g:loaded_myutil')
   finish
 endif
-let g:loaded_util = 1
+let g:loaded_myutil = 1
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -22,24 +22,24 @@ function! s:set(var, default)
   endif
 endfunction
 
-call s:set('g:util_save_time', 3000 )
-call s:set('g:util_enable', 1 )
+call s:set('g:myutil_save_time', 3000 )
+call s:set('g:myutil_enable', 1 )
 
-augroup util
+augroup myutil
   autocmd!
   autocmd FileType gitcommit setlocal spell
-  autocmd FileType qf call util#qf_enhanced()
-  autocmd BufWritePre * call util#auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
-  autocmd BufNewFile,BufReadPost * call util#vimrc_local(expand('<afile>:p:h'))
-  autocmd InsertLeave * call util#fcitx2en()
-  autocmd TextYankPost,TextChanged,InsertEnter * call util#yank_toggle_flag()
+  autocmd FileType qf call myutil#qf_enhanced()
+  autocmd BufWritePre * call myutil#auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  autocmd BufNewFile,BufReadPost * call myutil#vimrc_local(expand('<afile>:p:h'))
+  autocmd InsertLeave * call myutil#fcitx2en()
+  autocmd TextYankPost,TextChanged,InsertEnter * call myutil#yank_toggle_flag()
 augroup END
 
 command!
   \ -nargs=+ -bang
   \ -complete=command
   \ Capture
-  \ call util#cmd_capture([<f-args>], <bang>0)
+  \ call myutil#cmd_capture([<f-args>], <bang>0)
 
 command! -nargs=* TERM split | resize20 | term <args>
 
