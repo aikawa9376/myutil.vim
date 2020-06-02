@@ -162,6 +162,17 @@ function! myutil#remove_line_brank_all(count)
   call repeat#set('dD', v:count1)
 endfunction
 
+" remove top new line and end line yank ---------------------
+function! myutil#yank_remove_line()
+  let tmp = @"
+  let pos = getpos('.')
+  let yank = substitute(tmp, '\%^\_s\+', '', '')
+  let yank = substitute(yank, '\_s\%$', '', '')
+  let @" = yank
+  execute 'normal ""p'
+  let @" = tmp
+endfunction
+
 " top and bottom yank ---------------------
 function! s:yank_after_indent()
   normal! gV=gV^
