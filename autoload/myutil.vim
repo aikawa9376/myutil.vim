@@ -186,8 +186,7 @@ function! myutil#yank_line(flag)
     let repeat = '[p'
   endif
   call append(line, '')
-  execute 'normal! ' . a:flag . 'p'
-  call s:yank_after_indent()
+  execute 'normal! ' . a:flag . 'p=`]^'
   call repeat#set(repeat, '')
 endfunction
 
