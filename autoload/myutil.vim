@@ -141,6 +141,9 @@ function! myutil#remove_line_brank(count)
   for i in range(1, v:count1)
     if getline('.') ==# ''
       .delete _
+    elseif getline('.') =~ '^\s*$'
+      echom 'bang!'
+      .delete _
     else
       .delete
     endif
@@ -151,6 +154,8 @@ endfunction
 function! myutil#remove_line_brank_all(count)
   for i in range(1, v:count1)
     if getline('.') ==# ''
+      .delete _
+    elseif getline('.') =~ '^\s*$'
       .delete _
     else
       .delete
@@ -205,11 +210,11 @@ function! myutil#yank_toggle_flag() abort
 endfunction
 
 " auto indent start insert
-function! myutil#indent_with_i()
+function! myutil#indent_with_i(command)
     if len(getline('.')) == 0
-        return 'cc'
+        return a:command . 'cc'
     else
-        return 'i'
+        return a:command . 'i'
     endif
 endfunction
 
