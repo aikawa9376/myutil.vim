@@ -30,7 +30,6 @@ augroup myutil
   autocmd FileType gitcommit setlocal spell
   autocmd FileType qf call myutil#qf_enhanced()
   autocmd BufWritePre * call myutil#auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
-  autocmd BufNewFile,BufReadPost * call myutil#vimrc_local(expand('<afile>:p:h'))
   autocmd InsertLeave * call myutil#fcitx2en()
   autocmd TextYankPost,TextChanged,InsertEnter * call myutil#yank_toggle_flag()
 augroup END
