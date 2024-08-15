@@ -148,7 +148,6 @@ function! myutil#remove_line_brank(count)
       .delete
     endif
   endfor
-  call repeat#set('dd', v:count1)
 endfunction
 
 function! myutil#remove_line_brank_all(count)
@@ -164,7 +163,6 @@ function! myutil#remove_line_brank_all(count)
   while getline('.') ==# ''
       .delete _
   endwhile
-  call repeat#set('dD', v:count1)
 endfunction
 
 " remove top new line and end line yank ---------------------
@@ -192,7 +190,6 @@ function! myutil#yank_line(flag)
   endif
   call append(line, '')
   execute 'normal! ' . a:flag . 'p=`]^'
-  call repeat#set(repeat, '')
 endfunction
 
 " yank toggle ---------------------
@@ -226,7 +223,6 @@ function! myutil#join_space_less()
         " When remove it!
         execute 'normal dw'
     endif
-    call repeat#set('gJ', v:count1)
 endfunction
 
 " vimrcをスペースドットで更新
