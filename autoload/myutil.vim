@@ -142,7 +142,6 @@ function! myutil#remove_line_brank(count)
     if getline('.') ==# ''
       .delete _
     elseif getline('.') =~ '^\s*$'
-      echom 'bang!'
       .delete _
     else
       .delete
